@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
+
     Button [] btns;
     Jeu game;
     boolean fini;
@@ -39,6 +40,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
     }
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+         for (int i=0;i<9;i++){
+             String btnId="btn"+i;
+             int resID = getResources().getIdentifier(btnId, "id", getPackageName());
+             btns[i] = ((Button) findViewById(resID));
+             outState.putString(btnId,btns[i].getText().toString());
+
+         }
+
+
+
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onRestoreInstanceState(savedInstanceState);
+
+        for (int i=0;i<9;i++){
+            String btnId="btn"+i;
+            int resID = getResources().getIdentifier(btnId, "id", getPackageName());
+            btns[i] = ((Button) findViewById(resID));
+            btns[i].setText(savedInstanceState.getString(btnId));
+
+
+        }
+
+    }
+
+
+
     public void changeButtonO(int i){
         String buttonID = "btn" + i ;
         int resID = getResources().getIdentifier(buttonID, "id", getPackageName());
@@ -115,6 +149,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn0:
                 if(!fini && btns[0].getText().equals("")) {
                     btns[0].setText("X");
+
                     game.setX(0);
                     jouee=true;
                 }

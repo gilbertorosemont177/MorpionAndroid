@@ -1,41 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".MainActivity"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
 
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:text="Tic Tac Toe"
         android:paddingBottom="20px"
         android:paddingTop="20px"
-        />
+        android:text="Tic Tac Toe" />
 
     <TextView
         android:id="@+id/msgwin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="match start !"
-        />
+        android:text="match start !" />
+
     <include
         layout="@layout/grille"
         android:layout_width="wrap_content"
-        android:layout_height="200dp" />
+        android:layout_height="159dp"
+        android:visibility="visible" />
 
     <Button
         android:id="@+id/newgame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Game"
-        android:gravity="center_horizontal"
-        android:layout_gravity="center_vertical|center_horizontal"
         android:layout_centerInParent="true"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:gravity="center_horizontal"
         android:paddingTop="50px"
+        android:text="New Game"
+
         />
 
 
