@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">MorpionAndroidStudio</string>
-    <string name="btn0"></string>
+
+    <string name="newgame"> new game</string>
 </resources>

@@ -6,7 +6,16 @@
     tools:context=".MainActivity"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar_g"
+        android:textAlignment="gravity"
+        android:background="@color/colorPrimary"
+        android:theme="@style/ToolBarStyle"
+        >
 
+    </android.support.v7.widget.Toolbar>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,7 +40,7 @@
         android:id="@+id/newgame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Game"
+        android:text="@string/newgame"
         android:gravity="center_horizontal"
         android:layout_gravity="center_vertical|center_horizontal"
         android:layout_centerInParent="true"
