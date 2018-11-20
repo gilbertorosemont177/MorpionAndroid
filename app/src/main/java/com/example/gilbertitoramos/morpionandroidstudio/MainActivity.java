@@ -2,14 +2,9 @@ package com.example.gilbertitoramos.morpionandroidstudio;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.drawable.Icon;
-import android.media.Image;
-import android.os.Build;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
@@ -19,8 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-
+import java.io.Serializable;
 import java.util.Locale;
 
 
@@ -34,7 +28,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView messagewin;
     boolean jouee=false;
     Toolbar t;
-    Image i;
+    Context context;
+    String gagnant;
     @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +43,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getSupportActionBar().setTitle("Tic Tac Toe");
         getSupportActionBar().setLogo(R.mipmap.ic_launcher_foreground);
 
-
         /* toolbar */
 
-
+        context=this.getApplicationContext();
         messagewin= findViewById(R.id.msgwin);
         tabGagne=new int[3];
         btns= new Button[10];
@@ -62,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View v) {
                 InitGame();
-                messagewin.setText("match start !!");
+                messagewin.setText("");
                 btns[9].setTextColor(Color.BLACK);
                 }
         });
@@ -74,20 +68,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         inflater.inflate(R.menu.menu,menu);
         return true;
     }
-    /* Options Item Selected*/
+    public void modificationsLangageWin(){
+        if(fini){
+
+            if (gagnant.equals("X")) {
+                messagewin.setText(context.getResources().getString(R.string.winX));
+            } else if (gagnant.equals("O")) {
+                messagewin.setText(context.getResources().getString(R.string.winO));
+
+            } else if(gagnant.equals("null")){
+                messagewin.setText(context.getResources().getString(R.string.matchnull));
+            }
+        }
+    }
+
+    /* Options Items method pour le changement de langue*/
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Context context;
+
         Resources resources;
         Locale locale;
         Configuration config;
-
-
         switch (item.getItemId()){
 
             case R.id.Francais:
-                Toast.makeText(getApplication(), "Francais!",
-                        Toast.LENGTH_LONG).show();
+
                 locale = new Locale("fr");
                 Locale.setDefault(locale);
                 resources = getApplicationContext().getResources();
@@ -96,10 +101,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 context = getBaseContext().createConfigurationContext(config);
                 btns[9].setText(context.getResources().getString(R.string.newgame));
 
+                modificationsLangageWin();
                 break;
             case R.id.Anglais:
-                Toast.makeText(getApplication(), "Anglais!",
-                        Toast.LENGTH_LONG).show();
+
                 locale = new Locale("en");
                 Locale.setDefault(locale);
                 resources = getApplicationContext().getResources();
@@ -107,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 config.setLocale(locale);
                 context = getBaseContext().createConfigurationContext(config);
                 btns[9].setText(context.getResources().getString(R.string.newgame));
+                modificationsLangageWin();
 
                 break;
 
@@ -131,6 +137,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         for (Button btn : ListeBtnsLoad()){
                outState.putString(""+btn.getId(),btn.getText().toString());
         }
+        outState.putSerializable ("context", (Serializable) context);
     }
 
   @Override
@@ -142,6 +149,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             btn.setText(savedInstanceState.getString(""+btn.getId()));
         }
+        context= (Context) savedInstanceState.getSerializable("context");
     }
 
     public void changeButtonO(int i){
@@ -172,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if(game.gagnant("X",tabGagne)){
             fini = true;
-            messagewin.setText("X win");
+            gagnant="X";
             marque(tabGagne);
             btns[9].setBackgroundColor(Color.BLUE);
         }
@@ -184,16 +192,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(game.gagnant("O",tabGagne)){
                     fini = true;
                     marque(tabGagne);
-                    messagewin.setText("O gagne!");
+                    gagnant="O";
                     btns[9].setTextColor(Color.BLUE);
                 }
             }
             else
             {
                 fini = true;
-                messagewin.setText("Partie nulle!");
+                gagnant="null";
                 btns[9].setTextColor(Color.BLUE);
             }
+        }
+        if(fini){
+            modificationsLangageWin();
         }
     }
 

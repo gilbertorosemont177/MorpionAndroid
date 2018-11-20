@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">MorpionAndroidStudio</string>
-
+    <string name="winO">O wins!</string>
+    <string name="winX">X wins!</string>
+    <string name="matchnull">match null</string>
     <string name="newgame"> new game</string>
+
 </resources>

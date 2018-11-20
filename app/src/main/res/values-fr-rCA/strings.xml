@@ -2,4 +2,8 @@
 <resources>
     <string name="app_name">MorpionAndroidStudio</string>
     <string name="newgame">nouvelle partie</string>
+    <string name="winO">O gagne!</string>
+    <string name="winX">X gagne!</string>
+    <string name="matchnull">partie nulle</string>
+
 </resources>
