@@ -1,10 +1,14 @@
 package com.example.gilbertitoramos.morpionandroidstudio;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.drawable.Icon;
+import android.media.Image;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -30,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView messagewin;
     boolean jouee=false;
     Toolbar t;
+    Image i;
+    @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -41,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setSupportActionBar(t);
         getSupportActionBar().setTitle("Tic Tac Toe");
         getSupportActionBar().setLogo(R.mipmap.ic_launcher_foreground);
+
 
         /* toolbar */
 
@@ -72,19 +79,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onOptionsItemSelected(MenuItem item) {
         Context context;
         Resources resources;
+        Locale locale;
+        Configuration config;
 
 
         switch (item.getItemId()){
 
             case R.id.Francais:
-                Toast.makeText(getApplication(), "francais!",
+                Toast.makeText(getApplication(), "Francais!",
                         Toast.LENGTH_LONG).show();
-
+                locale = new Locale("fr");
+                Locale.setDefault(locale);
+                resources = getApplicationContext().getResources();
+               config = new Configuration(resources.getConfiguration());
+                config.setLocale(locale);
+                context = getBaseContext().createConfigurationContext(config);
+                btns[9].setText(context.getResources().getString(R.string.newgame));
 
                 break;
             case R.id.Anglais:
                 Toast.makeText(getApplication(), "Anglais!",
                         Toast.LENGTH_LONG).show();
+                locale = new Locale("en");
+                Locale.setDefault(locale);
+                resources = getApplicationContext().getResources();
+               config  = new Configuration(resources.getConfiguration());
+                config.setLocale(locale);
+                context = getBaseContext().createConfigurationContext(config);
+                btns[9].setText(context.getResources().getString(R.string.newgame));
+
                 break;
 
         }

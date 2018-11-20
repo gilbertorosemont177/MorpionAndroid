@@ -8,11 +8,12 @@
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="180px"
         android:id="@+id/toolbar_g"
         android:textAlignment="gravity"
         android:background="@color/colorPrimary"
         android:theme="@style/ToolBarStyle"
+
         >
 
     </android.support.v7.widget.Toolbar>
