@@ -1,6 +1,6 @@
 package com.example.gilbertitoramos.morpionandroidstudio;
 
-import android.annotation.SuppressLint;
+
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Toolbar t;
     Context context;
     String gagnant;
-    @SuppressLint("ResourceType")
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
