@@ -1,22 +1,13 @@
 package com.example.gilbertitoramos.morpionandroidstudio;
 
-
-import android.content.Context;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import java.io.Serializable;
-import java.util.Locale;
-
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -27,107 +18,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int[] tabGagne;
     private TextView messagewin;
     boolean jouee=false;
-    Toolbar t;
-    Context context;
-    String gagnant;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        /* toolbar */
-        t= (Toolbar) findViewById(R.id.toolbar_g);
-        setSupportActionBar(t);
-        getSupportActionBar().setTitle("Tic Tac Toe");
-        getSupportActionBar().setLogo(R.mipmap.ic_launcher_foreground);
-
-        /* toolbar */
-
-        context=this.getApplicationContext();
         messagewin= findViewById(R.id.msgwin);
+        messagewin.setText("match start!!");
         tabGagne=new int[3];
         btns= new Button[10];
         game= new Jeu();
         InitGame();
+
         btns[9]=((Button) findViewById(R.id.newgame));
+
         btns[9].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 InitGame();
-                messagewin.setText("");
+                messagewin.setText("match start !!");
                 btns[9].setTextColor(Color.BLACK);
-                }
-        });
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater=getMenuInflater();
-        inflater.inflate(R.menu.menu,menu);
-        return true;
-    }
-    public void modificationsLangageWin(){
-        if(fini){
 
-            if (gagnant.equals("X")) {
-                messagewin.setText(context.getResources().getString(R.string.winX));
-            } else if (gagnant.equals("O")) {
-                messagewin.setText(context.getResources().getString(R.string.winO));
-
-            } else if(gagnant.equals("null")){
-                messagewin.setText(context.getResources().getString(R.string.matchnull));
             }
-        }
+        });
+
     }
-
-    /* Options Items method pour le changement de langue*/
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        Resources resources;
-        Locale locale;
-        Configuration config;
-        switch (item.getItemId()){
-
-            case R.id.Francais:
-
-                locale = new Locale("fr");
-                Locale.setDefault(locale);
-                resources = getApplicationContext().getResources();
-               config = new Configuration(resources.getConfiguration());
-                config.setLocale(locale);
-                context = getBaseContext().createConfigurationContext(config);
-                btns[9].setText(context.getResources().getString(R.string.newgame));
-
-                modificationsLangageWin();
-                break;
-            case R.id.Anglais:
-
-                locale = new Locale("en");
-                Locale.setDefault(locale);
-                resources = getApplicationContext().getResources();
-               config  = new Configuration(resources.getConfiguration());
-                config.setLocale(locale);
-                context = getBaseContext().createConfigurationContext(config);
-                btns[9].setText(context.getResources().getString(R.string.newgame));
-                modificationsLangageWin();
-
-                break;
-
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     public Button[] ListeBtnsLoad(){
 
         for (int i=0;i<9;i++){
-             String btnId="btn"+i;
-             int resID = getResources().getIdentifier(btnId, "id", getPackageName());
-             btns[i] = ((Button) findViewById(resID));
-           }
+            String btnId="btn"+i;
+            int resID = getResources().getIdentifier(btnId, "id", getPackageName());
+            btns[i] = ((Button) findViewById(resID));
+        }
+
         return btns;
     }
     @Override
@@ -135,27 +59,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onSaveInstanceState(outState);
 
         for (Button btn : ListeBtnsLoad()){
-               outState.putString(""+btn.getId(),btn.getText().toString());
+            outState.putString(""+btn.getId(),btn.getText().toString());
         }
-        outState.putSerializable ("context", (Serializable) context);
     }
 
-  @Override
+    @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onRestoreInstanceState(savedInstanceState);
         for (Button btn: ListeBtnsLoad()
-             ) {
+                ) {
 
             btn.setText(savedInstanceState.getString(""+btn.getId()));
         }
-        context= (Context) savedInstanceState.getSerializable("context");
     }
 
     public void changeButtonO(int i){
+
         ListeBtnsLoad()[i].setText("O");
     }
     public void InitGame (){
+
         for(int i=0; i<9;i++){
             String buttonID = "btn" + i ;
             int resID = getResources().getIdentifier(buttonID, "id", getPackageName());
@@ -165,7 +89,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             btns[i].setTextColor(Color.BLACK);
 
         }
-
         fini=false;
         game.initialise();
         for(int i=0; i<2;i++)
@@ -178,9 +101,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     public void Game(){
 
+
         if(game.gagnant("X",tabGagne)){
+
             fini = true;
-            gagnant="X";
+            messagewin.setText("X win");
             marque(tabGagne);
             btns[9].setBackgroundColor(Color.BLUE);
         }
@@ -188,26 +113,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (!game.isPartieNulle()) {
 
                 int cellule = game.getO();
+                //
                 changeButtonO(cellule);
                 if(game.gagnant("O",tabGagne)){
                     fini = true;
+
                     marque(tabGagne);
-                    gagnant="O";
+
+                    messagewin.setText("O gagne!");
                     btns[9].setTextColor(Color.BLUE);
                 }
+
             }
             else
             {
                 fini = true;
-                gagnant="null";
+                messagewin.setText("Partie nulle!");
                 btns[9].setTextColor(Color.BLUE);
             }
         }
-        if(fini){
-            modificationsLangageWin();
-        }
     }
-
     public void BtnSetX(int position){
         btns[position].setText("X");
         game.setX(position);
@@ -222,12 +147,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn0:
                 if(!fini && btns[0].getText().equals(""))
                     BtnSetX(0);
-
                 break;
 
             case R.id.btn1:
                 if(!fini && btns[1].getText().equals(""))
-                   BtnSetX(1);
+                    BtnSetX(1);
                 break;
 
             case R.id.btn2:
@@ -247,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.btn5:
                 if(!fini && btns[5].getText().equals(""))
-                   BtnSetX(5);
+                    BtnSetX(5);
                 break;
 
             case R.id.btn6:
@@ -268,5 +192,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if(jouee)
             Game();
+
     }
 }
+
